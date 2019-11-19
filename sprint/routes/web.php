@@ -11,17 +11,36 @@
 |
 */
 
+use Illuminate\Http\Request;
 use App\Models\Province;
 use App\Models\City;
-use Symfony\Component\HttpFoundation\Request;
+use App\Libraries\RajaOngkir;
 
 Route::group(["prefix" => "search"], function(){
-    Route::get("/provincies", function (Request $request){
-        return Province::where("id", $request->get("id"))->first();
+    $resourceForm = \env("RESOURCE_FROM");
+    Route::get("/provincies", function (Request $request) use ($resourceForm) {
+        $id = $request->get("id");
+        $response = null;
+        if ($resourceForm === "DB") {
+            $response =  Province::where("id", $id)->first();
+        } else {
+            $response =  (new RajaOngkir)->findProvinceById($id);
+        }
+
+        return response()->json($response);
     });
 
-    Route::get("/cities", function (Request $request){
-        return City::where("id", $request->get("id"))->first();
+    Route::get("/cities", function (Request $request) use ($resourceForm) {
+        $id = $request->get("id");
+        $response = null;
+
+        if ($resourceForm === "DB") {
+            $response = City::where("id", $id)->first();
+        } else {
+            $response = (new RajaOngkir)->findCityById($id);
+        }
+
+        return response()->json($response);
     });
     
 });

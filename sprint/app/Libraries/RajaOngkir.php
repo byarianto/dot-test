@@ -47,6 +47,20 @@ class RajaOngkir {
         return $result;
     }
 
+    public function findProvinceById($id) {
+        $response = $this->client->get(
+            $this->getAbsoluteURL("starter/province?id=$id")
+        );
+        return $this->handleResult($response);
+    }
+
+    public function findCityById($id) {
+        $response = $this->client->get(
+            $this->getAbsoluteURL("starter/city?id=$id")
+        );
+        return $this->handleResult($response);
+    }
+
     private function getAbsoluteURL($url) {
         return $this->base_url ."/" . $url;
     }
