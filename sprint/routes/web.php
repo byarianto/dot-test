@@ -11,9 +11,9 @@
 |
 */
 
+use Illuminate\Http\Request;
 use App\Models\Province;
 use App\Models\City;
-use Symfony\Component\HttpFoundation\Request;
 
 Route::group(["prefix" => "search"], function(){
     Route::get("/provincies", function (Request $request){
